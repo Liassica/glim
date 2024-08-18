@@ -12,6 +12,8 @@ let
   cfg = ../../grub2;
 in
 writeShellScriptBin "glim" ''
+  shopt -s expand_aliases
+
   export PATH=${
     lib.makeBinPath [
       coreutils-full
@@ -20,12 +22,23 @@ writeShellScriptBin "glim" ''
       rsync
       util-linux
     ]
-  }:$PATH
+  }:''$PATH
 
   # Check that we are *NOT* running as root
   if [[ `id -u` -eq 0 ]]; then
     echo "ERROR: Don't run as root, use a user with full sudo access."
     exit 1
+  fi
+
+  # Use alternative if sudo is not found
+  if [[ ! `which sudo &>/dev/null` ]]; then
+    if which doas &>/dev/null; then
+      alias sudo=doas
+    else
+      sudo () {
+        su -c "$*"
+      }
+    fi
   fi
 
   # Find GLIM device (use the first if multiple found, you've asked for trouble!)

@@ -10,7 +10,7 @@ I've Nixified the upstream glim script, so it should work out of the box on syst
 
 Follow the upstream instructions for setting up your USB device.
 
-Then, install glim to your USB by running `nix run github:Liassica/glim-flake`. You can override the theme by adding this repo as a flake input and overriding the 'theme' input.
+Then, install glim to your USB by running `nix run github:Liassica/glim-flake`. You can override the theme or by adding this repo as a flake input and overriding the 'theme' input.
 
 E.g, to use the Breeze GRUB theme:
 
